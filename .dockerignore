@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 环境变量和密钥（不打包进镜像）
+.env
+*.pem
+*.key
+
+# Git
+.git/
+.gitignore
+
+# 示例和文档
+example/
+pythonexample/
+auth-oauth-jwt.ts
+鉴权.md
+README.md
+
+# 其他
+.DS_Store
+Thumbs.db
+*.log
+

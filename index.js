@@ -1,4 +1,5 @@
-const BOT_ID = '7574314241218904100';
+// Bot ID is injected by backend from .env (COZE_BOT_ID)
+const BOT_ID = window.COZE_BOT_ID || '7574314241218904100';
 const TOKEN_ENDPOINT = window.COZE_TOKEN_ENDPOINT || '/api/chat-token';
 const LOCAL_UID_KEY = 'coze-demo-uid';
 

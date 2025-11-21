@@ -10,15 +10,19 @@ or
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory, render_template_string
 
 from coze_oauth import OAuthConfig
 
 config = OAuthConfig.from_env()
 BASE_DIR = Path(__file__).resolve().parent
 app = Flask(__name__, static_folder=str(BASE_DIR), static_url_path="")
+
+# Load Bot ID from environment variable
+BOT_ID = os.getenv("COZE_BOT_ID", "7574314241218904100")
 
 
 def _ensure_user_id() -> str:
@@ -56,7 +60,16 @@ def healthcheck():
 
 @app.get("/")
 def serve_index():
-    return send_from_directory(app.static_folder, "index.html")
+    # Read HTML and inject BOT_ID
+    html_path = Path(app.static_folder) / "index.html"
+    with open(html_path, "r", encoding="utf-8") as f:
+        html_content = f.read()
+    
+    # Inject BOT_ID as a global variable before other scripts
+    injection = f'<script>window.COZE_BOT_ID = "{BOT_ID}";</script>'
+    html_content = html_content.replace('</head>', f'{injection}\n</head>')
+    
+    return html_content
 
 
 @app.get("/<path:asset>")
